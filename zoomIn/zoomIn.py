@@ -45,21 +45,39 @@ for i in argv:
 
 cat input.in | python digitFun.py
 '''
-
-while True:
-	v = raw_input()
-	if v.isdigit() == False: # isdigit true if string is only digits, or can if v == "END":
-		break	
-	 
-	x = 0
-	while True:
-#	i != int(v):
-		i = len(v)
-		if i == int(v):
-			break
-		v = str(i)
-		x += 1
+# character class; contains definition of zoomed in character
+class chDef(object):
+	def __init__(self, dR):
+		self.charDefR = dR	# rows of char, storage of string
+	def printRow(self, beg, end):	# Print row of char def
+		print "%s",self.charDefR[beg:end]
+	def add(self, s):	# add to char def
+		self.charDefR += s
 	
-	print x+1
+charDict = {}  
+chList = []
+chDefList = []
 
+numCol = raw_input()	# num cols a char will take when zoomed in
+numRow = raw_input()	# num row a char will take when zoomed in
+numChar = raw_input()	# num chars to zoom in
+
+# read char descs
+x = 0
+while x < numChar:
+	chList.append(raw_input())	# char def for ch char
+	chDefList.append(chDef(""))	# add new chDef, fill it:	
+	for i in range(0, numRow):
+		chDefList[x].add(raw_input())
+	charDict[chList[x]] = chDefList[x]	# setup dict
+	x+=1
+
+# Read phrase to zoom in:
+phrase = raw_input()	
+
+# Zoom in:
+for r in range(0, numRow):
+	for n in range(0, len(phrase): 	
+		charDict[phrase[n]].printRow(numCol*r, (numCol*r)+numCol)
+	print "\n"
 
