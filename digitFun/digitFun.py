@@ -37,12 +37,23 @@ from sys import argv
 for i in argv:
 	print "%r\n" % i
 
+cat input.in | python digitFun.py
 '''
 
 while True:
 	v = raw_input()
-	if v == "END":
+	if v.isdigit() == False: # isdigit true if string is only digits, or can if v == "END":
 		break	
-	print "%r\n" % v
+	 
+	x = 0
+	while True:
+#	i != int(v):
+		i = len(v)
+		if i == int(v):
+			break
+		v = str(i)
+		x += 1
+	
+	print x+1
 
 
