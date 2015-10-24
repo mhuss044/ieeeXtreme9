@@ -27,13 +27,6 @@ Notes:
 
     The "zoomed-in" version of an empty string is m blank lines (i.e. lines with only a newline character).
 
-Output Format
-
-For each of the x strings, you should output the “zoomed-in” version. Each string should begin on a newline.
-
-Note: You should perform only the transformation that is specified. You should not add any space between your printed letters that is not in the transformation.
-
-
 
 print "ge"
 print "gg:%d, %s, %s" % (n+2, v, var)
@@ -45,22 +38,26 @@ for i in argv:
 
 cat input.in | python digitFun.py
 '''
+
+import sys
+
 # character class; contains definition of zoomed in character
 class chDef(object):
 	def __init__(self, dR):
 		self.charDefR = dR	# rows of char, storage of string
 	def printRow(self, beg, end):	# Print row of char def
-		print "%s",self.charDefR[beg:end]
+		sys.stdout.write(self.charDefR[beg:end])
+#print self.charDefR[beg:end],
 	def add(self, s):	# add to char def
-		self.charDefR += s
+		self.charDefR += s.rstrip('\r\n')
 	
 charDict = {}  
 chList = []
 chDefList = []
 
-numCol = raw_input()	# num cols a char will take when zoomed in
-numRow = raw_input()	# num row a char will take when zoomed in
-numChar = raw_input()	# num chars to zoom in
+numCol = int(raw_input())	# num cols a char will take when zoomed in
+numRow = int(raw_input())	# num row a char will take when zoomed in
+numChar = int(raw_input())	# num chars to zoom in
 
 # read char descs
 x = 0
@@ -68,16 +65,33 @@ while x < numChar:
 	chList.append(raw_input())	# char def for ch char
 	chDefList.append(chDef(""))	# add new chDef, fill it:	
 	for i in range(0, numRow):
-		chDefList[x].add(raw_input())
+		chDefList[x].add((raw_input()).rstrip('\r\n'))
 	charDict[chList[x]] = chDefList[x]	# setup dict
 	x+=1
 
-# Read phrase to zoom in:
-phrase = raw_input()	
+# Get num lines to zoom:
+numLines = int(raw_input())
 
-# Zoom in:
-for r in range(0, numRow):
-	for n in range(0, len(phrase): 	
-		charDict[phrase[n]].printRow(numCol*r, (numCol*r)+numCol)
-	print "\n"
+while numLines > 0:
+	# Read phrase to zoom in:
+	phrase = raw_input()	
+
+	'''
+	print charDict,"\n"
+	print chList,"\n"
+	print chDefList,"\n"
+	print phrase,"\n"
+
+	for r in range(0, numChar):
+		sys.stdout.write(str(len(chDefList[r].charDefR))+':'+chDefList[r].charDefR+'\n')
+	sys.stdout.write('\n')
+	'''
+
+	# Zoom in:
+	for r in range(0, numRow):
+		for n in range(0, len(phrase)): 	
+			charDict[phrase[n]].printRow(numCol*r, (numCol*r)+numCol)
+		sys.stdout.write('\n')
+	numLines -= 1;
+
 
